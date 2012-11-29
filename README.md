@@ -1,6 +1,6 @@
-# contour (draft)
+# contour (beta)
 
-contour generates html from an array representation
+silhouette generates html from an array representation
 
 [![Build Status](https://travis-ci.org/snd/contour.png)](https://travis-ci.org/snd/contour)
 
@@ -93,7 +93,7 @@ returns
 ```
 
 `area`, `base`, `br`, `col`, `command`, `embed`, `hr`, `img`, `input`, `keygen`, `link`, `meta`, `param`, `source`, `track`, `wbr` and `frame`
-are void tags. they have no content and no closing tag.
+are void tags. they have no closing tag and can't have content.
 
 ##### tag with id and classes
 
@@ -121,7 +121,9 @@ returns
 <form method="post" action="/submit"></form>
 ```
 
-the `class` and `id` attributes overwrite classes and id parsed from the tag string.
+the `class` and `id` attributes overwrite classes and ids parsed from the tag string.
+
+##### content
 
 ##### tag with inner text
 
@@ -172,7 +174,7 @@ returns
 
 ##### components
 
-contour handles objects specially when they have a `render` property which is a function.
+contour handles objects specially when they have a `render` property that is a function.
 it will call the `render` function and use the generated markup in place of the component.
 
 ```coffeescript
@@ -203,6 +205,20 @@ html ['html',
 # => '<div><p data-component-id="1">a text inside a component</p>/<div>
 ```
 
+
+##### loops
+
+
+
+##### conditionals
+
+contour is very forgiving in the way
+it treats contento
+
+it will just flatten everything out, ignore null values and concatenate the outputs
+
+
+
 ### xss prevention
 
 contour will [html escape content](https://www.owasp.org/index.php/xss_%28cross_site_scripting%29_prevention_cheat_sheet#rule_.231_-_html_escape_before_inserting_untrusted_data_into_html_element_content).
@@ -219,7 +235,9 @@ contour is much cleaner than kup. it is purely functional.
 contour has easier syntax for classes and ids.
 with contour there is no weird `k` object to pass around.
 
-with contour we can handle html as data, which can be transformed.
+with contour we handle html as data (nested arrays), which can be traversed and transformed.
+this is impossible with kup since we can't look inside functions.
+
 
 contour really composes. you can drop a fragment 
 
@@ -246,5 +264,11 @@ performance.
 as i am writing a lot of clojure at the moment i don't mind the syntax
 but i can see how someone could have a problem with it.
 i think after trying it for a while it will soon be as natural as writing kup code.
+
+##### performance
+
+performance should be the least of our concerns.
+
+the expensive part are string operations
 
 ### license: MIT
