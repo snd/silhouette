@@ -1,0 +1,16 @@
+{
+    "author": "Maximilian Krüger <kruemaxi@googlemail.com> (http://github.com/snd)",
+    "name": "contour",
+    "description": "contour generates html from an array representation",
+    "version": "0.1.0",
+    "dependencies": {
+        "coffee-script": "1.4.0"
+    },
+    "devDependencies": {
+        "nodeunit": "0.7.4"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/snd/contour.git"
+    }
+}
