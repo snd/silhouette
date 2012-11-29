@@ -19,18 +19,19 @@ npm install silhouette
 ### use
 
 ```coffeescript
-html5 ['html',
-    ['head',
-        ['title', 'a title']
-        ['script', {
-            src: 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'
-            type: 'text/javascript'}]]
-    ['body',
-        ['div#container',
-            ['h1', 'a heading']
-            ['h2.secondary-heading', 'another heading']
-            ['ul', 'first second third'.split(' ').map((x) -> ['li', ['a', x]])]
-            ['p', 'Before the break', ['br'], 'After the break']]]]
+html5
+    ['html',
+        ['head',
+            ['title', 'a title']
+            ['script', {
+                src: 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'
+                type: 'text/javascript'}]]
+        ['body',
+            ['div#container',
+                ['h1', 'a heading']
+                ['h2.secondary-heading', 'another heading']
+                ['ul', 'first second third'.split(' ').map((x) -> ['li', ['a', x]])]
+                ['p', 'Before the break', ['br'], 'After the break']]]]
 ```
 
 returns
