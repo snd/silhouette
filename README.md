@@ -1,19 +1,19 @@
-# contour (beta)
+# silhouette (beta)
 
 silhouette generates html from an array representation
 
-[![Build Status](https://travis-ci.org/snd/contour.png)](https://travis-ci.org/snd/contour)
+[![Build Status](https://travis-ci.org/snd/silhouette.png)](https://travis-ci.org/snd/silhouette)
 
 ### install
 
 ```
-npm install contour
+npm install silhouette
 ```
 
 ### require
 
 ```coffeescript
-{html, html5} = require 'contour'
+{html, html5} = require 'silhouette'
 ```
 
 ### use
@@ -174,7 +174,7 @@ returns
 
 ##### components
 
-contour handles objects specially when they have a `render` property that is a function.
+silhouette handles objects specially when they have a `render` property that is a function.
 it will call the `render` function and use the generated markup in place of the component.
 
 ```coffeescript
@@ -188,7 +188,7 @@ returns
 ```
 
 
-when contour encounters a list of components the output is concatenated.
+when silhouette encounters a list of components the output is concatenated.
 
 ```coffeescript
 beget = require 'beget'
@@ -212,7 +212,7 @@ html ['html',
 
 ##### conditionals
 
-contour is very forgiving in the way
+silhouette is very forgiving in the way
 it treats contento
 
 it will just flatten everything out, ignore null values and concatenate the outputs
@@ -221,25 +221,25 @@ it will just flatten everything out, ignore null values and concatenate the outp
 
 ### xss prevention
 
-contour will [html escape content](https://www.owasp.org/index.php/xss_%28cross_site_scripting%29_prevention_cheat_sheet#rule_.231_-_html_escape_before_inserting_untrusted_data_into_html_element_content).
+silhouette will [html escape content](https://www.owasp.org/index.php/xss_%28cross_site_scripting%29_prevention_cheat_sheet#rule_.231_-_html_escape_before_inserting_untrusted_data_into_html_element_content).
 
 - [escape attributes](https://www.owasp.org/index.php/xss_%28cross_site_scripting%29_prevention_cheat_sheet#rule_.232_-_attribute_escape_before_inserting_untrusted_data_into_html_common_attributes)
     - Kup properly quotes all attributes with double quotes
     - properly quoted attributes can only be escaped with the corresponding quote
     - Kup escapes all double quotes inside attributes to prevent escaping
 
-### why i think contour is better than kup
+### why i think silhouette is better than kup
 
-contour is much cleaner than kup. it is purely functional.
+silhouette is much cleaner than kup. it is purely functional.
 `html` and `html5` have no side effects.
-contour has easier syntax for classes and ids.
-with contour there is no weird `k` object to pass around.
+silhouette has easier syntax for classes and ids.
+with silhouette there is no weird `k` object to pass around.
 
-with contour we handle html as data (nested arrays), which can be traversed and transformed.
+with silhouette we handle html as data (nested arrays), which can be traversed and transformed.
 this is impossible with kup since we can't look inside functions.
 
 
-contour really composes. you can drop a fragment 
+silhouette really composes. you can drop a fragment 
 
 this isn't possible with kup
 
