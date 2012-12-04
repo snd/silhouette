@@ -124,7 +124,7 @@ returns
 <form method="post" action="/submit"></form>
 ```
 
-the `class` and `id` attributes overwrite classes and ids parsed from the tag string.
+the `class` and `id` attributes overwrite classes and id parsed from the tag string.
 
 ##### tag with text content
 
