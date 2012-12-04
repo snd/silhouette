@@ -61,4 +61,3 @@ module.exports.html = (data) ->
         common.encodeContent data.toString()
 
 module.exports.html5 = (data) -> '<!DOCTYPE html>\n' + module.exports.html data
-
