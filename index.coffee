@@ -7,30 +7,47 @@ module.exports.html = (data) ->
         else
             if 'string' is typeof data[0]
 
-                {tag, id, classes} = common.parseTagString data[0]
-                out = "<#{tag}"
+                # it's a tag
+
+                string = data[0]
+
+                tag = common.parseTag string
+                unless tag?
+                    throw new Error "no tag found in  tagstring `#{string}`"
+
                 hasAttributes = 'object' is typeof data[1] and not Array.isArray data[1]
+
+                out = "<#{tag}"
+
                 attrs = if hasAttributes then data[1] else {}
-                attrs.id = id if id? and not attrs.id?
-                attrs.class = classes.join(' ') if classes.length isnt 0 and not attrs.class?
+
+                if tag.length isnt string.length
+                    if not attrs.id?
+                        id = common.parseId string
+                        attrs.id = id if id?
+                    if not attrs.class?
+                        clazz = common.parseClass string
+                        attrs.class = clazz if clazz?
 
                 for k, v of attrs
-                    if not v?
+                    unless v?
                         throw new Error "value of attribute `#{k}` in tag #{tag} is undefined or null"
-                    out += " #{k}=\"#{common.quoteAttribute v.toString()}\""
+                    out += " #{k}=\"#{v.toString().replace /"/g, '&quot;'}\""
+                out
 
-                rest = data.slice(if hasAttributes then 2 else 1)
+                leaderLength = if hasAttributes then 2 else 1
 
                 if common.isVoidTag tag
-                    unless rest.length is 0
+                    unless data.length is leaderLength
                         throw new Error "void tag `#{tag}` can't have content"
                     out += " />"
                     return out
 
                 out += ">"
 
-                rest.forEach (content) ->
-                    out += module.exports.html content
+                i = leaderLength
+                while i < data.length
+                    out += module.exports.html data[i++]
 
                 out += "</#{tag}>"
                 out
