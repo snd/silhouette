@@ -1,8 +1,8 @@
-# silhouette (beta)
-
-silhouette generates html from an array representation
+# silhouette (draft)
 
 [![Build Status](https://travis-ci.org/snd/silhouette.png)](https://travis-ci.org/snd/silhouette)
+
+silhouette generates html from an array representation
 
 ### install
 
@@ -69,6 +69,10 @@ After the break</p>
 
 ### forms
 
+silhouette generates html from tag forms.
+a tag form is defined as an array consisting of a name string, an optional attributes object and
+a variable number of content elements.
+
 ##### tag
 
 ```coffeescript
@@ -98,8 +102,6 @@ are void tags. they have no closing tag and can't have content.
 
 ##### tag with id and classes
 
-tag with id and classes
-
 ```coffeescript
 html ['p#my-id.my-class-1.my-class-2']
 ```
@@ -107,7 +109,7 @@ html ['p#my-id.my-class-1.my-class-2']
 returns
 
 ```html
-<p id="my-id", class="my-class-1 my-class-2"></p>
+<p id="my-id" class="my-class-1 my-class-2"></p>
 ```
 
 ##### tag with attributes
@@ -124,9 +126,7 @@ returns
 
 the `class` and `id` attributes overwrite classes and ids parsed from the tag string.
 
-##### content
-
-##### tag with inner text
+##### tag with text content
 
 ```coffeescript
 html ['p', 'lorem ipsum']
@@ -138,7 +138,7 @@ returns
 <p>lorem ipsum</p>
 ```
 
-##### tag with inner html and inner text
+##### tag with mixed html and text content
 
 ```coffeescript
 html
@@ -155,121 +155,55 @@ returns
 <p>lorem ipsum <span>dolor sit <b>amet</b></span></p>
 ```
 
-##### unsafe strings
-
-```coffeescript
-html ['p', ['$unsafe', 'djfsklfjdslk']] # => '<p id="my-id", class="my-class-1 my-class-2"></p>'
-```
-
-##### script tags with function arguments
-
-```coffeescript
-html ['script', -> alert("hello world")]
-```
-
-returns
-
-```html
-<script>function(){alert("hello world");}()</script>
-```
-
 ##### components
 
-silhouette handles objects specially when they have a `render` property that is a function.
-it will call the `render` function and use the generated markup in place of the component.
+a component is defined as an object which has a `render` property that is a function.
+when silhouette encounters a component
+it will call the `render` function of the component and use return value in place of the component.
 
 ```coffeescript
-html ['div', {render: -> ['p', 'a text inside a component']}]
+html ['div', {render: -> ['p', 'text inside a component']}]
 ```
 
 returns
 
 ```html
-<div><p>a text inside a component</p>/<div>
+<div><p>text inside a component</p><div>
 ```
 
+##### loops and conditional
 
-when silhouette encounters a list of components the output is concatenated.
+silhouette will just loop over any array that is not a tag form and concatenate the output.
 
 ```coffeescript
-beget = require 'beget'
-
-script =
-    render: -> ['script', {@src}]
-
-html ['html',
-    ['head', [
-        beget(script, {src: '/lskjlkd.js'})
-        beget(script, {src: '/lskjlkd.js'})
-        beget(script, {src: '/lskjlkd.js'})]]
-    ['body']]
-# => '<div><p data-component-id="1">a text inside a component</p>/<div>
+html ['div', ['first', 'second', 'third'].map((x) -> ['p', x])]
 ```
 
+returns
 
-##### loops
+```html
+<div><p>first</p><p>second</p><p>third</p><div>
+```
 
+the empty array acts as the identity. use it for conditional markup.
 
+```coffeescript
+renderSpan = false
+html ['div', (if renderSpan then ['span'] else [])]
+```
 
-##### conditionals
+returns
 
-silhouette is very forgiving in the way
-it treats contento
-
-it will just flatten everything out, ignore null values and concatenate the outputs
-
-
+```html
+<div></div>
+```
 
 ### xss prevention
 
-silhouette will [html escape content](https://www.owasp.org/index.php/xss_%28cross_site_scripting%29_prevention_cheat_sheet#rule_.231_-_html_escape_before_inserting_untrusted_data_into_html_element_content).
+silhouette will [html escape text content](https://www.owasp.org/index.php/xss_%28cross_site_scripting%29_prevention_cheat_sheet#rule_.231_-_html_escape_before_inserting_untrusted_data_into_html_element_content).
 
-- [escape attributes](https://www.owasp.org/index.php/xss_%28cross_site_scripting%29_prevention_cheat_sheet#rule_.232_-_attribute_escape_before_inserting_untrusted_data_into_html_common_attributes)
-    - Kup properly quotes all attributes with double quotes
-    - properly quoted attributes can only be escaped with the corresponding quote
-    - Kup escapes all double quotes inside attributes to prevent escaping
-
-### why i think silhouette is better than kup
-
-silhouette is much cleaner than kup. it is purely functional.
-`html` and `html5` have no side effects.
-silhouette has easier syntax for classes and ids.
-with silhouette there is no weird `k` object to pass around.
-
-with silhouette we handle html as data (nested arrays), which can be traversed and transformed.
-this is impossible with kup since we can't look inside functions.
-
-
-silhouette really composes. you can drop a fragment 
-
-this isn't possible with kup
-
-performance.
-
-##### advantages
-
-- seamlessly interleave components and markup
-
-- components using kup would produce html directly
-
-- less typing
-
-- data which is passed to a function for processing
-
-- nicer component composition
-
-- transform the syntax tree
-
-- the renderer could add an attribute `data-component-id` to each and every component
-
-as i am writing a lot of clojure at the moment i don't mind the syntax
-but i can see how someone could have a problem with it.
-i think after trying it for a while it will soon be as natural as writing kup code.
-
-##### performance
-
-performance should be the least of our concerns.
-
-the expensive part are string operations
+silhouette will [properly quote attributes using double quotes](https://www.owasp.org/index.php/xss_%28cross_site_scripting%29_prevention_cheat_sheet#rule_.232_-_attribute_escape_before_inserting_untrusted_data_into_html_common_attributes).
+properly quoted attributes can only be escaped with the corresponding quote.
+silhouette escapes all double quotes inside attributes values to prevent escaping.
 
 ### license: MIT
