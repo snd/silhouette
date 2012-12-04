@@ -15,7 +15,7 @@ module.exports.html = (data) ->
                 unless tag?
                     throw new Error "no tag found in  tagstring `#{string}`"
 
-                hasAttributes = 'object' is typeof data[1] and not Array.isArray data[1]
+                hasAttributes = 'object' is typeof data[1] and (not Array.isArray data[1]) and (not common.isComponent data[1])
 
                 out = "<#{tag}"
 
@@ -53,6 +53,10 @@ module.exports.html = (data) ->
                 out
             else
                 data.map(module.exports.html).join('')
+    else if common.isComponent data
+        module.exports.html data.render()
+    else unless data?
+        throw new Error 'missing data'
     else
         common.encodeContent data.toString()
 

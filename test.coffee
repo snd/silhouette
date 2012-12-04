@@ -78,6 +78,10 @@ module.exports =
                 test.throws -> html ['input', ['span']]
                 test.done()
 
+            'missing data': (test) ->
+                test.throws -> html null
+                test.done()
+
         'empty array': (test) ->
             data = []
             test.equal html(data), ''
@@ -160,6 +164,27 @@ module.exports =
                         ['p', ['a', 'second link']]]
                     test.equal html(data), '<p id="container"><a>first link</a><p><a>second link</a></p></p>'
                     test.done()
+
+        'component':
+            'direct argument': (test) ->
+                component = {render: -> ['p', 'paragraph from a component']}
+                test.equal html(component), '<p>paragraph from a component</p>'
+                test.done()
+
+            'in html': (test) ->
+                component = {render: -> ['p', 'paragraph from a component']}
+                data = ['div', {align: 'left'}, ['span', component, 'text after component']]
+                test.equal html(data), '<div align="left"><span><p>paragraph from a component</p>text after component</span></div>'
+                test.done()
+
+            'component array in html': (test) ->
+                data = ['div', [
+                    {render: -> ['p', 'first']}
+                    {render: -> ['p', 'second']}
+                    {render: -> ['p', 'third']}
+                ]]
+                test.equal html(data), '<div><p>first</p><p>second</p><p>third</p></div>'
+                test.done()
 
         'everything together': (test) ->
             data =
