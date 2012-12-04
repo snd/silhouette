@@ -171,7 +171,7 @@ returns
 <div><p>text inside a component</p><div>
 ```
 
-##### loops and conditional
+##### loops and conditionals
 
 silhouette will just loop over any array that is not a tag form and concatenate the output.
 
