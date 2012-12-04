@@ -159,7 +159,7 @@ returns
 
 a component is defined as an object which has a `render` property that is a function.
 when silhouette encounters a component
-it will call the `render` function of the component and use return value in place of the component.
+it will call the `render` function of the component and use its return value in place of the component.
 
 ```coffeescript
 html ['div', {render: -> ['p', 'text inside a component']}]
