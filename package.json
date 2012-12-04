@@ -1,16 +1,32 @@
 {
-    "author": "Maximilian Krüger <kruemaxi@googlemail.com> (http://github.com/snd)",
     "name": "silhouette",
-    "description": "silhouette generates html from an array representation",
     "version": "0.1.0",
+    "description": "silhouette generates html from an array representation",
+    "homepage": "http://github.com/snd/silhouette",
+    "author": {
+        "name": "Maximilian Krüger",
+        "email": "kruemaxi@gmail.com",
+        "url": "http://github.com/snd"
+    },
+    "bugs": {
+        "url": "http://github.com/snd/silhouette/issues",
+        "email": "kruemaxi@gmail.com"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/snd/silhouette.git"
+    },
+    "licenses": {
+        "type": "MIT",
+        "url": "git://github.com/snd/silhouette/LICENSE"
+    },
+    "engines": {
+        "node": ">=0.8.5"
+    },
     "dependencies": {
         "coffee-script": "1.4.0"
     },
     "devDependencies": {
         "nodeunit": "0.7.4"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/snd/silhouette.git"
     }
 }
