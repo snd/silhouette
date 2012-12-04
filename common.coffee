@@ -30,3 +30,6 @@ module.exports =
 
     isVoidTag: (tag) ->
         /area|base|br|col|command|embed|hr|img|input|keygen|link|meta|param|source|track|wbr|frame/.test tag
+
+    isComponent: (x) ->
+        ('object' is typeof x) and x.render? and ('function' is typeof x.render)

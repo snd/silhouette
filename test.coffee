@@ -3,6 +3,18 @@
 
 module.exports =
 
+    'isComponent':
+
+        'object with render function is a component': (test) ->
+            test.ok common.isComponent {render: ->}
+            test.done()
+        'empty object is not a component': (test) ->
+            test.ok not common.isComponent {}
+            test.done()
+        'string is not a component': (test) ->
+            test.ok not common.isComponent 'foo'
+            test.done()
+
     'parseTag':
 
         'empty': (test) ->
