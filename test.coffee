@@ -1,67 +1,56 @@
 {html} = require './index'
-{parseTagString} = require './common'
+{parseTagString} = common = require './common'
 
 module.exports =
 
-    'parseTagString':
+    'parseTag':
 
-        'throw when':
-
-            'empty': (test) ->
-                test.throws -> parseTagString ''
-                test.done()
-
-            'no tag name before id': (test) ->
-                test.throws -> parseTagString '#my-id'
-                test.done()
-
-            'no tag name before class': (test) ->
-                test.throws -> parseTagString '.my-class'
-                test.done()
-
-            'multiple ids': (test) ->
-                test.throws -> parseTagString 'div#id-1#id-2'
-                test.done()
-
-            'id after classes': (test) ->
-                test.throws -> parseTagString 'div.my-class#my-id'
-                test.done()
-
-            'empty id': (test) ->
-                test.throws -> parseTagString 'div#'
-                test.done()
-
-            'empty class': (test) ->
-                test.throws -> parseTagString 'div.'
-                test.throws -> parseTagString 'div.my-class.'
-                test.done()
-
-        'single char tag': (test) ->
-            test.deepEqual parseTagString('a'), {tag: 'a', classes: []}
+        'empty': (test) ->
+            test.ok not common.parseTag ''
             test.done()
 
-        'multi char tag': (test) ->
-            test.deepEqual parseTagString('div'), {tag: 'div', classes: []}
+        'invalid tag': (test) ->
+            test.ok not common.parseTag '$h1'
             test.done()
 
-        'tag with id': (test) ->
-            test.deepEqual parseTagString('div#my-id'),
-                {tag: 'div', id: 'my-id', classes: []}
+        'valid tag': (test) ->
+            test.equal 'h1', common.parseTag 'h1'
             test.done()
 
-        'tag with class': (test) ->
-            test.deepEqual parseTagString('div.my-class'),
-                {tag: 'div', classes: ['my-class']}
+        'tag with suffix': (test) ->
+            test.equal 'h1', common.parseTag 'h1#heading.awesome.super'
             test.done()
 
-        'tag with classes': (test) ->
-            test.deepEqual parseTagString('div.my-class-1.my-class-2.my-class-3'),
-                {tag: 'div', classes: ['my-class-1', 'my-class-2', 'my-class-3']}
+    'parseId':
+
+        'empty': (test) ->
+            test.ok not common.parseId ''
             test.done()
 
-        'tag with id and classes': (test) ->
-            test.deepEqual parseTagString('div#my-id.my-class-1.my-class-2.my-class-3'),
-                {tag: 'div', id: 'my-id', classes: ['my-class-1', 'my-class-2', 'my-class-3']}
+        'pure id': (test) ->
+            test.equal 'heading', common.parseId '#heading'
+            test.done()
+
+        'id in tagstring': (test) ->
+            test.equal 'heading', common.parseId 'h1#heading.awesome.super'
+            test.done()
+
+    'parseClass':
+
+        'empty': (test) ->
+            test.ok not common.parseClass ''
+            test.done()
+
+        'one class': (test) ->
+            test.equal 'awesome', common.parseClass '.awesome'
+            test.done()
+
+        'three classes': (test) ->
+            test.equal 'awesome super cool', common.parseClass '.awesome.super.cool'
+            test.done()
+
+        'three classes in tagstring': (test) ->
+            test.equal 'awesome super cool', common.parseClass 'h1.awesome.super#heading.cool'
             test.done()
 
     'html':
