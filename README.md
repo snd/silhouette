@@ -1,14 +1,10 @@
 # silhouette (draft)
 
+**i'm not maintaining this package anymore**
+
 [![Build Status](https://travis-ci.org/snd/silhouette.png)](https://travis-ci.org/snd/silhouette)
 
 silhouette generates html from an array representation
-
-### install
-
-```
-npm install silhouette
-```
 
 ### require
 
